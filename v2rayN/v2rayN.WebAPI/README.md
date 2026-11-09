@@ -133,12 +133,7 @@ bash Scripts/verify.sh
 and exercises API ZIP/self-update package boundaries and real different-layout Linux update,
 rollback and invalid-executable rejection. Integration tests live under `Tests/Integration/`
 (security defaults, release packaging dry-run, full-ZIP runtime, native update regression, and
-the Windows smoke: `Test-Windows.ps1 -Mode startup|update`). The independent `build-WebAPI.yml`
-workflow runs these checks, Windows x64/ARM64 build/startup smoke (the self-update
-replacement/rollback smoke stays on win-x64), native Linux builds, and Linux container builds on
-relevant PRs and pushes to `master`; it can also be dispatched manually or called by a release
-workflow. Releases include Linux x64/ARM64/RISC-V 64/LoongArch 64 and Windows x64/ARM64 packages;
-Linux containers are built for amd64 and arm64.
+the Windows smoke: `Test-Windows.ps1 -Mode startup|update`). The fork's `build-WebAPI.yml` runs WebAPI and ServiceLib unit tests on relevant changes. The full verification script is available for manual use in a suitable environment; it is not run by that workflow.
 
 `Tests/Integration/test-native-update-identity.py <previous-publish-dir> <candidate-publish-dir>`
 additionally exercises real native helper replacement and health-mismatch rollback with two
@@ -174,8 +169,7 @@ native/package scripts, Containerfile, solution registration, CI and tests use t
 The lock is `v2rayN.WebAPI.instance.lock`; the build identity is `v2rayN.WebAPI.build.json`;
 health headers are `X-v2rayn-WebAPI-*`; the update capability is `WebAPI.self-update`; update
 progress/runtime-state files are `WebAPI-update-progress.json` and
-`WebAPI-update-runtime-state.json`; workflow files are `build-WebAPI.yml` and
-`release-WebAPI.yml`.
+`WebAPI-update-runtime-state.json`; the fork uses `build-WebAPI.yml` for API tests.
 
 **Old experimental `v2rayN.Web` installs require a one-time manual reinstall.** Stop the old
 instance first (including its systemd/container supervisor), back up data and `.env`, install
@@ -202,35 +196,7 @@ executable assumptions.
 
 ## Releases and containers
 
-`build-all.yml` ("release all platforms") dispatches the desktop platform workflows and calls
-`release-WebAPI.yml`; the WebAPI packages ride the same `upload-sign.yml` path and land in the same
-release as the desktop assets. `release-WebAPI.yml` can also be dispatched directly with a
-`release_tag` (`x.y.z`) to call `build-WebAPI.yml`, assemble and validate the Linux and Windows
-WebAPI assets, then sign and upload them through the existing `upload-sign.yml` workflow. Signing
-uses the repository GPG key, so a fork that runs this flow publishes with its own
-`GPG_PRIVATE_KEY` secret. `build-WebAPI.yml` can also be dispatched with a tag for package-only
-verification. Web release orchestration and artifact names are RID-based, separately from
-containers and Desktop workflows. riscv64 builds on RISC-V runners with the community .NET SDK;
-loongarch64 builds inside the QEMU loong64 VM with the official Loongson SDK; both run a native
-smoke before packaging. Windows x64/ARM64 have full-install and app-only update ZIPs; Windows
-containers are not built.
-
-The API release provides architecture-specific full-install and app-only update ZIPs plus
-`WebAPI-update.json`:
-
-- `v2rayN-linux-64-WebAPI.zip` / `v2rayN-linux-arm64-WebAPI.zip` / `v2rayN-linux-riscv64-WebAPI.zip`
-  / `v2rayN-linux-loong64-WebAPI.zip` — API, runtime files, `.env.example`, and Core bundle.
-- `v2rayN-linux-64-WebAPI-update.zip` / `v2rayN-linux-arm64-WebAPI-update.zip` /
-  `v2rayN-linux-riscv64-WebAPI-update.zip` / `v2rayN-linux-loong64-WebAPI-update.zip` — API
-  executable and build identity only; user data, Core files, credentials, and unrelated files are
-  excluded.
-- `v2rayN-windows-64-WebAPI.zip` / `v2rayN-windows-arm64-WebAPI.zip` — Windows API, runtime/Core
-  files, and `.env.example`.
-- `v2rayN-windows-64-WebAPI-update.zip` / `v2rayN-windows-arm64-WebAPI-update.zip` — Windows API
-  executable and build identity only; user data, Core files, credentials, and unrelated files are
-  excluded.
-- `WebAPI-update.json` — version, commit, per-RID asset names, sizes, and SHA-256 digests. A RID
-  entry a build does not recognize is ignored instead of rejecting the manifest.
+This fork does not automatically build or publish WebAPI release packages. Upstream packaging scripts remain available for separate development and are not evidence of a published fork release.
 
 For Docker/Podman, the included `Containerfile` builds only the API and Core runtime.
 The Compose example requires a non-empty Management Key.

@@ -1,80 +1,34 @@
-# v2rayN
+# v2rayN-rus
 
-### A GUI client for Windows, Linux and macOS. Support [Xray](https://github.com/XTLS/Xray-core) and [sing-box](https://github.com/SagerNet/sing-box) and [others](https://github.com/2dust/v2rayN/wiki/List-of-supported-cores)
+Независимый русскоязычный форк [v2rayN](https://github.com/2dust/v2rayN) — графического клиента для управления подключениями через прокси. Программа помогает хранить профили, получать их по подписке, выбирать сервер и настраивать системный прокси, маршрутизацию и TUN. Сам форк не предоставляет сервер или подписку: параметры подключения предоставляет ваш оператор.
 
-[![CodeFactor](https://www.codefactor.io/repository/github/2dust/v2rayn/badge)](https://www.codefactor.io/repository/github/2dust/v2rayn)
-[![Release](https://img.shields.io/github/v/release/2dust/v2rayN?logo=github&label=Release)](https://github.com/2dust/v2rayN/releases)
-[![Downloads](https://img.shields.io/github/downloads/2dust/v2rayN/latest/total?logo=github&label=Downloads)](https://github.com/2dust/v2rayN/releases)
-[![Telegram](https://img.shields.io/badge/Telegram-Chat-26A5E4?logo=telegram)](https://t.me/v2rayn)
- 
-[![Windows](https://img.shields.io/badge/Windows-supported-0078D6?logo=windows)](https://github.com/2dust/v2rayN) 
-[![Linux](https://img.shields.io/badge/Linux-supported-FCC624?logo=linux&logoColor=000)](https://github.com/2dust/v2rayN) 
-[![macOS](https://img.shields.io/badge/macOS-supported-000000?logo=apple)](https://github.com/2dust/v2rayN) 
-[![GPG Signed](https://img.shields.io/badge/GPG-signed-4B32C3?logo=gnuprivacyguard)](https://github.com/2dust/v2rayN)
+## Как это работает
 
+v2rayN управляет настройками и запускает отдельное **сетевое ядро**, например Xray-core или sing-box. Ядро обрабатывает соединения; для работы нужны совместимые профиль, ядро и сервер. Версия v2rayN и версия ядра — разные вещи: обновление ядра не гарантирует появления всех его функций в интерфейсе.
 
----
+Код содержит профили VMess, VLESS, Shadowsocks, SOCKS, Trojan, Hysteria2, TUIC, WireGuard, HTTP, AnyTLS, Naive и MASQUE, а также пользовательские конфигурации. Доступность каждого сочетания параметров, версии и ядра различается; наличие названия в коде не гарантирует поддержку конкретной конфигурации. Подробнее — [протоколы и ядра](docs/ru/guide.md#протоколы-и-ядра).
 
-## Download / 下载
+## Загрузка и платформы
 
-Download the latest release here:
+Проверяйте наличие готовых файлов на [странице релизов форка](https://github.com/silikonoff/v2rayN-rus/releases). Если релиза для вашей системы нет, исходный код сам по себе не является готовой установкой. Исходная версия кода этого форка — 7.25.6, но это не подтверждает наличие собранного релиза.
 
-在这里下载最新版本：
+Целевые архитектуры: Windows x64 и x86, Linux x64, macOS Intel x64 и Apple Silicon ARM64. Сборки форка не подтверждены фактическим запуском. Linux x86 исключён из форка: прежний сценарий использовал сторонний runtime и правку SDK. Минимальные версии ОС и требования конкретного пакета необходимо проверять в его описании; [требования оригинала](https://github.com/2dust/v2rayN/wiki/Release-files-introduction) могут отличаться от форка. Подпись разработчика Apple и нотариальное заверение форка не подтверждены.
 
-[https://github.com/2dust/v2rayN/releases](https://github.com/2dust/v2rayN/releases)
+## Быстрый старт
 
+1. Скачайте подходящий архив из релиза форка, если он опубликован, и проверьте источник и инструкции к этому релизу. Распакуйте архив в отдельный каталог с правом записи.
+2. Запустите приложение, импортируйте полученную у доверенного поставщика ссылку через **Серверы → Импорт ссылок общего доступа из буфера обмена** или добавьте подписку в **Группа подписки → Настройки групп подписки**.
+3. Выберите профиль и команду **Сделать активным**. Проверьте сообщения в приложении: для запуска требуется совместимое ядро.
+4. Для приложений, использующих системные настройки, выберите **Системный прокси → Установить системный прокси**. Проверьте доступ к нужному ресурсу. При завершении работы выберите **Очистить системный прокси** и проверьте восстановление обычного доступа.
 
-> [!TIP]
-> v2rayN is the desktop version. For the mobile version, please visit the v2rayNG \
-> v2rayN 是电脑版，手机版请访问 v2rayNG
->
-> https://github.com/2dust/v2rayNG
+Подробные инструкции, TUN, DNS, диагностика и резервное копирование: **[руководство пользователя](docs/ru/guide.md)**.
 
----
+## Обновления и безопасность
 
-## Documentation / 使用文档
+**Встроенное обновление приложения в текущем исходном коде обращается к релизам оригинального 2dust/v2rayN.** Оно может установить оригинальную версию вместо форка. До отдельной проверки используйте релизы форка вручную и сохраняйте резервную копию. Обновления ядер настраиваются отдельно; перед заменой сохраните рабочую версию ядра. Автоматический откат ядра не подтверждён.
 
-Read the Wiki for usage guides and configuration details.
+Ссылки подписок, конфигурации, архивы резервных копий и журналы могут содержать учётные данные и адреса. Не публикуйте их в Issues и не передавайте незнакомым людям. Приложение не гарантирует анонимность или отсутствие утечек.
 
-请阅读 Wiki 获取使用说明和配置教程。
+## Обратная связь и лицензия
 
-[https://github.com/2dust/v2rayN/wiki](https://github.com/2dust/v2rayN/wiki)
-
----
-
-## Supported Platforms / 支持平台
-
-| Platform / 平台 | x64 | x86 | arm64 | riscv64 | loong64 | ppc64le |
-| --- | --- | --- | --- | --- | --- | --- |
-| Windows | ✅ | ✅ | ✅ | - | - | - |
-| Linux | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| macOS | ✅ | - | ✅ | - | - | - |
-
-Minimum OS requirements: [Release files introduction](https://github.com/2dust/v2rayN/wiki/Release-files-introduction) / 最低系统要求：[发布文件介绍](https://github.com/2dust/v2rayN/wiki/Release-files-introduction)
-
----
-
-## GPG Verification / GPG 签名校验
-
-Release files are signed with GPG to verify authenticity and integrity, helping prevent mirror, ISP, or CDN hijacking.
-
-发布文件已使用 GPG 签名，可用于校验文件真实性与完整性，预防镜像站、运营商或 CDN 劫持。
-
-### Fingerprint / 公钥指纹
-
-```text
-7694 5E9F 3E9A 168F 8070 F195 805D 661C
-134D FAF6 8903 C199 463C 31E5 AE90 3AE0
-```
-
----
-
-## Community / 社区
-
-Telegram Group / Telegram 群组：
-
-[https://t.me/v2rayN](https://t.me/v2rayN)
-
-Telegram Channel / Telegram 频道：
-
-[https://t.me/github_2dust](https://t.me/github_2dust)
+О проблемах форка сообщайте в [Issues](https://github.com/silikonoff/v2rayN-rus/issues), предварительно удалив секреты из описания и снимков экрана. [Оригинальный проект](https://github.com/2dust/v2rayN) сохраняет авторство своих материалов; этот форк не является его официальным продуктом. Исходная лицензия — [GPL-3.0](LICENSE); лицензии и уведомления сторонних компонентов сохраняются. [Отчёт об аудите и ограничениях](docs/ru/PROJECT_MAINTENANCE_REPORT.md).

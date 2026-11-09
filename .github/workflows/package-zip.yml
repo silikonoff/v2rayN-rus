@@ -26,7 +26,7 @@ jobs:
     name: package x64 arm64
     strategy:
       matrix:
-        arch: [ x64, arm64 ]
+        arch: ${{ fromJSON(inputs.target == 'macos' && '["x64","arm64"]' || '["x64"]') }}
     runs-on: ubuntu-latest
     env:
       Target: |- 
@@ -110,7 +110,7 @@ jobs:
     needs: package
     strategy:
       matrix:
-        arch: [ x64, arm64 ]
+        arch: ${{ fromJSON(inputs.target == 'macos' && '["x64","arm64"]' || '["x64"]') }}
     uses: ./.github/workflows/upload-sign.yml
     with:
       release_tag: ${{ inputs.release_tag }}

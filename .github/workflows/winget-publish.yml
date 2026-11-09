@@ -10,6 +10,7 @@ on:
 
 jobs:
   winget:
+    if: github.repository == '2dust/v2rayN'
     name: Publish winget package
     runs-on: windows-latest
     steps:
