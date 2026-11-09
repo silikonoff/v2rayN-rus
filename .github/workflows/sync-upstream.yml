@@ -1,0 +1,33 @@
+name: Sync upstream source
+
+on:
+  schedule:
+    - cron: '23 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-upstream-master
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    if: github.repository == 'silikonoff/v2rayN-rus'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: master
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.x'
+      - name: Merge official upstream
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          python scripts/sync_upstream.py
+      - name: Push if upstream changed
+        run: git push origin HEAD:refs/heads/master
