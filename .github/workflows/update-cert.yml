@@ -11,6 +11,7 @@ permissions:
 
 jobs:
   update-cert:
+    if: github.repository == '2dust/v2rayN'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
