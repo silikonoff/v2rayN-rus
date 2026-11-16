@@ -12,6 +12,7 @@ PROTECTED = (
     ".github/workflows",
     "scripts/check_docs.py",
     "scripts/sync_upstream.py",
+    "scripts/test_sync_upstream.py",
     "package-debian-x86.sh",
     "package-rhel-x86.sh",
 )
@@ -56,7 +57,11 @@ def main() -> int:
         print("Unresolved upstream conflicts; no commit or push performed", file=sys.stderr)
         git("merge", "--abort", check=False)
         return 1
-    git("diff", "--cached", "--check")
+    # Preserve upstream source verbatim, including its whitespace. Conflicts
+    # are checked above; formatting warnings in imported code are non-fatal.
+    if git("diff", "--cached", "--check", check=False).returncode:
+        print("Upstream whitespace warnings reported; importing source unchanged")
+    git("diff", "--cached", "--check", "--", *PROTECTED)
     git("commit", "-m", f"Merge upstream v2rayN {upstream[:12]}")
     return 0
 
